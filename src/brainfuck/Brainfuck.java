@@ -1,7 +1,5 @@
 package brainfuck;
 
-import com.sun.security.jgss.GSSUtil;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -9,17 +7,14 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Brainfuck {
-   public static void main(String[] args) {
+   public static void main(String[] args) throws FileNotFoundException {
       Brainfuck brainfuck = new Brainfuck();
       StringBuilder code = new StringBuilder();
-      try {
-         Scanner scanner = new Scanner(new File("code.txt"));
-         while (scanner.hasNextLine()) code.append(scanner.nextLine());
-      } catch (FileNotFoundException e) {
-         e.printStackTrace();
-      }
+      Scanner scanner = new Scanner(new File("code.txt"));
+      while (scanner.hasNextLine()) code.append(scanner.nextLine());
+      scanner.close();
       int[] tape = brainfuck.run(code.toString());
-      System.out.println("\n" + Arrays.toString(tape).replaceAll("\\[|]|,", ""));
+      System.out.println("\n" + Arrays.toString(tape).replaceAll("[\\[\\],]", ""));
    }
 
    public int[] run(String code) {
