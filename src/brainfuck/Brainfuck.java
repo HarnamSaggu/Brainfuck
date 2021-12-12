@@ -30,7 +30,22 @@ public class Brainfuck {
             case '+' -> tape[head]++;
             case '-' -> tape[head]--;
             case '[' -> {
-               if (tape[head] > 0) whileIndexes.push(i);
+               if (tape[head] > 0) {
+                  whileIndexes.push(i);
+               } else {
+                  int index = i + 1;
+                  int open = 1;
+                  int close = 0;
+                  while (open != close) {
+                     if (commands[index] == '[') {
+                        open++;
+                     } else if (commands[index] == ']') {
+                        close++;
+                     }
+                     index++;
+                  }
+                  i = index - 1;
+               }
             }
             case ']' -> {
                if (tape[head] > 0) i = whileIndexes.peek() - 1;
@@ -40,6 +55,7 @@ public class Brainfuck {
             case ',' -> tape[head] = scanner.nextInt();
          }
          tape[head] = (char) (tape[head] % 255);
+
       }
       return tape;
    }
